@@ -1,0 +1,14 @@
+environment="development"
+
+[auth]
+secret="secret"
+
+[logger]
+level = "debug"
+
+[database]
+uri="postgres://postgres:password@localhost:54322/db"
+password="password"
+
+[server]
+port=3000
