@@ -5,27 +5,34 @@ edition = "2021"
 publish = false
 
 [dependencies]
-axum = { version = "0.6.20", features = ["headers", "json", "tracing"] }
-tokio = { version = "1.0", features = ["full"] }
-tower-http = { version = "0.4.0", features = [
+axum = { version = "0.8.1", features = ["json", "tracing", "macros"] }
+#axum-extra = { version = "0.10.0-alpha.1" }
+#axum-test = "16.3"
+tokio = { version = "1.43.0", features = ["full"] }
+tower-http = { version = "0.6", features = [
     "trace",
     "compression-br",
     "propagate-header",
     "sensitive-headers",
     "cors",
 ] }
-tracing = "0.1"
-tracing-subscriber = { version = "0.3", features = ["env-filter"] }
-thiserror = "1.0"
-validator = { version = "0.16", features = ["derive"] }
-config = "0.13"
-lazy_static = "1.4"
-sqlx = { version = "0.7.2", features = ["postgres", "runtime-tokio-native-tls"] }
-serde = { version = "1.0", features = ["derive"] }
-hyper = { version = "0.14", features = ["full"] }
+tracing = "0.1.41"
+tracing-subscriber = { version = "0.3.19", features = ["env-filter"] }
+thiserror = "2.0"
+serde_json = "1.0.137"
+validator = { version = "0.20", features = ["derive"] }
+config = "0.15"
+dotenvy = "0.15"
+lazy_static = "1.5.0"
+sqlx = { version = "0.8", features = ["postgres", "runtime-tokio-native-tls", "macros", "migrate"] }
+serde = { version = "1.0.217", features = ["derive"] }
+hyper = { version = "1.5", features = ["full"] }
+http-body-util = "0.1"
+log = "0.4.25"
 
 [dev-dependencies]
-assert-json-diff = "2.0.2"
-reqwest = { version = "0.11.18", features = ["json"] }
-pretty_assertions = "1.4.0"
+tower = { version = "0.5", features = ["util"] }
+
+[profile.dev.package.sqlx-macros]
+opt-level = 3
 

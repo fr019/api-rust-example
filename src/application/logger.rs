@@ -1,4 +1,3 @@
-use crate::application::settings::SETTINGS;
 use std::env;
 use tower_http::{
     classify::{ServerErrorsAsFailures, SharedClassifier},
@@ -8,24 +7,18 @@ use tracing::Level;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 pub fn setup() {
-    if env::var_os("RUST_LOG").is_none() {
-        let level = SETTINGS.logger.level.as_str();
-        let sql_explain = SETTINGS.logger.sql_explain.as_str();
-        let env = format!("api_rust_example={level},tower_http={level},sqlx={sql_explain}");
+    let level = env::var("LOGGER__LEVEL").unwrap_or_else(|_| "info".to_string());
+    let sql_explain = env::var("LOGGER__SQL_EXPLAIN").unwrap_or_else(|_| "off".to_string());
+    let env = format!("api_rust_example={level},tower_http={level},sqlx={sql_explain}");
 
-        env::set_var("RUST_LOG", env);
-    }
+    env::set_var("RUST_LOG", env);
 
     tracing_subscriber::registry()
-        .with(
-            tracing_subscriber::EnvFilter::try_from_default_env().unwrap_or_else(|_| {
-                // axum logs rejections from built-in extractors with the `axum::rejection`
-                // target, at `TRACE` level. `axum::rejection=trace` enables showing those events
-                "api_rust_example=debug,tower_http=debug,axum::rejection=trace".into()
-            }),
-        )
+        .with(tracing_subscriber::EnvFilter::try_from_default_env().unwrap())
         .with(tracing_subscriber::fmt::layer())
         .init();
+
+    tracing::debug!("Logger configured successfully");
 }
 
 pub fn trace_layer() -> TraceLayer<SharedClassifier<ServerErrorsAsFailures>> {
