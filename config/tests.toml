@@ -4,10 +4,12 @@ environment="development"
 secret="secret"
 
 [logger]
-level = "debug"
+level="debug"
+sql_explain="true"
 
 [database]
-uri="postgres://postgres:password@localhost:54322/db"
+uri="postgres://postgres:password@localhost:5431/test_db"
+max_connections=5
 password="password"
 
 [server]

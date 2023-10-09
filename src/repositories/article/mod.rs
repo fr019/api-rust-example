@@ -1,8 +1,9 @@
-use crate::domains::article::{Article, CreateArticle};
 use sqlx::PgExecutor;
 
+use crate::domains::article::{Article, CreateArticle};
+
 impl Article {
-    pub async fn create(db: impl PgExecutor<'_>, new_article: CreateArticle) -> Article {
+    pub async fn create(executor: impl PgExecutor<'_>, new_article: CreateArticle) -> Article {
         let sql = format!(
             r#"
                 insert into articles (title, short_description, content)
@@ -15,12 +16,12 @@ impl Article {
         );
 
         sqlx::query_as(&sql)
-            .fetch_one(db)
+            .fetch_one(executor)
             .await
             .expect("Failed to create article")
     }
 
-    pub async fn get_all(db: impl PgExecutor<'_>) -> Vec<Article> {
+    pub async fn get_all(executor: impl PgExecutor<'_>) -> Vec<Article> {
         let sql = r#"
                 select 
                     id
@@ -32,12 +33,12 @@ impl Article {
             "#;
 
         sqlx::query_as(sql)
-            .fetch_all(db)
+            .fetch_all(executor)
             .await
             .expect("Failed to fetch articles")
     }
 
-    pub async fn delete(db: impl PgExecutor<'_>, article_id: i32) -> Article {
+    pub async fn delete(executor: impl PgExecutor<'_>, article_id: i32) -> Article {
         let sql = format!(
             r#"
                 update articles
@@ -48,7 +49,7 @@ impl Article {
         );
 
         sqlx::query_as(&sql)
-            .fetch_one(db)
+            .fetch_one(executor)
             .await
             .expect("Failed to delete article")
     }

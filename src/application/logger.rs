@@ -8,13 +8,11 @@ use tracing::Level;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 pub fn setup() {
-    if env::var_os("RUST_LOG").is_none() {
-        let level = SETTINGS.logger.level.as_str();
-        let sql_explain = SETTINGS.logger.sql_explain.as_str();
-        let env = format!("api_rust_example={level},tower_http={level},sqlx={sql_explain}");
+    let level = SETTINGS.logger.level.as_str();
+    let sql_explain = SETTINGS.logger.sql_explain.as_str();
+    let env = format!("api_rust_example={level},tower_http={level},sqlx={sql_explain}");
 
-        env::set_var("RUST_LOG", env);
-    }
+    env::set_var("RUST_LOG", env);
 
     tracing_subscriber::registry()
         .with(

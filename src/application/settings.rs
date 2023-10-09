@@ -21,6 +21,7 @@ pub struct Logger {
 #[derive(Debug, Clone, Deserialize)]
 pub struct Database {
     pub uri: String,
+    pub max_connections: u32,
 }
 
 #[derive(Debug, Clone, Deserialize)]

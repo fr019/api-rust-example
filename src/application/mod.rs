@@ -1,10 +1,12 @@
 pub mod db;
+pub mod errors;
 pub mod logger;
 pub mod settings;
 
 use crate::application::logger::trace_layer;
 use crate::handlers;
 use axum::{http::header, Extension, Router};
+
 use tower_http::{
     compression::CompressionLayer,
     cors::{Any, CorsLayer},
