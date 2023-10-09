@@ -11,11 +11,10 @@ async fn main() {
     let app = application::create().await;
     let port = SETTINGS.server.port;
     let addr = SocketAddr::from(([0, 0, 0, 0], port));
+    let listener = tokio::net::TcpListener::bind(addr).await.unwrap();
 
     tracing::info!("Server listening on {}", &addr);
-
-    axum::Server::bind(&addr)
-        .serve(app.into_make_service())
+    axum::serve(listener, app.into_make_service())
         .await
-        .expect("Failed to start server");
+        .unwrap();
 }

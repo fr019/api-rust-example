@@ -1,4 +1,3 @@
-use crate::domains::article::{Article, CreateArticle};
 use axum::http::StatusCode;
 use axum::{
     extract::Path,
@@ -6,6 +5,8 @@ use axum::{
     Extension, Json, Router,
 };
 use sqlx::PgPool;
+
+use crate::domains::article::{Article, CreateArticle};
 
 pub fn create_routes() -> Router {
     Router::new()

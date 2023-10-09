@@ -1,5 +1,6 @@
-use crate::domains::article::{Article, CreateArticle};
 use sqlx::PgExecutor;
+
+use crate::domains::article::{Article, CreateArticle};
 
 impl Article {
     pub async fn create(db: impl PgExecutor<'_>, new_article: CreateArticle) -> Article {
