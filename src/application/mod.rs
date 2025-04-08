@@ -15,7 +15,6 @@ use tower_http::{
 };
 
 pub async fn create() -> Router {
-    logger::setup();
     let pool = db::create_pool().await;
     let cors = CorsLayer::new().allow_origin(Any);
 

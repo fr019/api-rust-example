@@ -12,7 +12,7 @@ pub fn create_routes() -> Router {
     Router::new()
         .route("/article", post(create_article))
         .route("/articles", get(get_articles))
-        .route("/article/:id", delete(delete_article))
+        .route("/article/{id}", delete(delete_article))
 }
 
 pub async fn create_article(
