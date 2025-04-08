@@ -1,4 +1,4 @@
-use config::{Config, ConfigError, Environment, File};
+use config::{Config, ConfigError, Environment};
 use lazy_static::lazy_static;
 use serde::Deserialize;
 use std::{env, fmt};
@@ -20,7 +20,7 @@ pub struct Logger {
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct Database {
-    pub uri: String,
+    pub url: String,
     pub max_connections: u32,
 }
 
@@ -31,7 +31,7 @@ pub struct Auth {
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct Settings {
-    pub environment: String,
+    pub run_mode: String,
     pub server: Server,
     pub logger: Logger,
     pub database: Database,
@@ -40,12 +40,7 @@ pub struct Settings {
 
 impl Settings {
     pub fn new() -> Result<Self, ConfigError> {
-        let run_mode = env::var("RUN_MODE").unwrap_or_else(|_| "development".into());
-
         let mut builder = Config::builder()
-            .add_source(File::with_name("config/default"))
-            .add_source(File::with_name(&format!("config/{run_mode}")).required(false))
-            .add_source(File::with_name("config/local").required(false))
             .add_source(Environment::default().separator("__"));
 
         // Some cloud services like Heroku exposes a randomly assigned port in

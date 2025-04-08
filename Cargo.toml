@@ -1,15 +1,15 @@
 [package]
 name = "api-rust-example"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 publish = false
 
 [dependencies]
 axum = { version = "0.8", features = ["json", "tracing", "macros"] }
-#axum-extra = { version = "0.9.0" }
-axum-test = "13"
-tokio = { version = "1.34.0", features = ["full"] }
-tower-http = { version = "0.5.0", features = [
+axum-extra = { version = "0.10" }
+axum-test = "17"
+tokio = { version = "1.44", features = ["full"] }
+tower-http = { version = "0.6", features = [
     "trace",
     "compression-br",
     "propagate-header",
@@ -21,19 +21,20 @@ tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 thiserror = "1.0"
 serde_json = "1.0"
 validator = { version = "0.16", features = ["derive"] }
-config = "0.13"
-lazy_static = "1.4.0"
-sqlx = { version = "0.7.3", features = ["postgres", "runtime-tokio-native-tls", "macros", "migrate"] }
-serde = { version = "1.0.193", features = ["derive"] }
-hyper = { version = "1.0.1", features = ["full"] }
-hyper-util = { version = "0.1.1", features = ["client", "http1", "client-legacy"] }
-futures-core = "0.3.29"
+config = "0.15"
+lazy_static = "1.5"
+sqlx = { version = "0.8", features = ["postgres", "runtime-tokio-native-tls", "macros", "migrate"] }
+serde = { version = "1.0", features = ["derive"] }
+hyper = { version = "1.1", features = ["full"] }
+hyper-util = { version = "0.1", features = ["client", "http1", "client-legacy"] }
+futures-core = "0.3"
 mime = "0.3.17"
-http-body-util = "0.1.0"
+http-body-util = "0.1"
+dotenvy = "0.15"
 
 [dev-dependencies]
-tower = { version = "0.4.13", features = ["util"] }
-assert-json-diff = "2.0.2"
-reqwest = { version = "0.11.22", features = ["json"] }
-pretty_assertions = "1.4.0"
+tower = { version = "0.5", features = ["util"] }
+assert-json-diff = "2.0"
+reqwest = { version = "0.12", features = ["json"] }
+pretty_assertions = "1.4"
 

@@ -45,8 +45,8 @@ impl User {
 
     pub async fn get_all(
         db: impl PgExecutor<'_>,
-        per_page: usize,
-        last_id: Option<usize>,
+        per_page: i32,
+        last_id: Option<i32>,
         order: Option<String>,
     ) -> Result<Vec<User>, UserError> {
         let order_filter = format!("order by id {}", order.unwrap_or_default());

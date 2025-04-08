@@ -1,5 +1,5 @@
 use axum::extract::Query;
-use axum::response::{IntoResponse, Response};
+use axum::response::{IntoResponse};
 use axum::{
     extract::Path,
     routing::{delete, get, post},
@@ -15,10 +15,10 @@ use crate::domains::CollectionParams;
 
 pub fn create_routes() -> Router {
     Router::new()
-        .route("/user", post(create_user))
+        .route("/users", post(create_user))
         .route("/users", get(get_users))
-        .route("/user/:id", get(get_user))
-        .route("/user/:id", delete(delete_user))
+        .route("/users/{id}", get(get_user))
+        .route("/users/{id}", delete(delete_user))
 }
 
 pub async fn create_user(

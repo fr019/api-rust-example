@@ -12,7 +12,10 @@ pub fn setup() {
     let sql_explain = SETTINGS.logger.sql_explain.as_str();
     let env = format!("api_rust_example={level},tower_http={level},sqlx={sql_explain}");
 
-    env::set_var("RUST_LOG", env);
+    println!("level: {}", level);
+    unsafe {
+        env::set_var("RUST_LOG", env);
+    }
 
     tracing_subscriber::registry()
         .with(

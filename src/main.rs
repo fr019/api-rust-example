@@ -10,9 +10,15 @@ use std::net::SocketAddr;
 
 #[tokio::main]
 async fn main() {
-    let run_mode = env::var("RUN_MODE").unwrap_or_else(|_| "develop".to_string());
-    dotenvy::from_filename(format!(".env.{}", run_mode)).ok();
-    dotenvy::dotenv().ok();
+    let run_mode = env::var("RUN_MODE").unwrap_or_else(|_| "development".into());
+    match run_mode.as_str() {
+        "production" => {
+            dotenvy::from_filename(".env.production").ok();
+        }
+        _ => {
+            dotenvy::from_filename(".env.develop").ok();
+        }
+    };
 
     logger::setup();
 

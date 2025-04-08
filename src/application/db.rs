@@ -6,15 +6,16 @@ pub async fn create_pool() -> PgPool {
     let database_url = SETTINGS.database.url.as_str();
     tracing::info!("Connecting to database at: {}", database_url);
 
-    env::set_var("DATABASE_URL", database_url);
-
-    let url = env::var("DATABASE_URL").expect("DATABASE_URL must be set.");
-
     let pool = PgPoolOptions::new()
         .max_connections(SETTINGS.database.max_connections)
-        .connect(&url)
+        .connect(&database_url)
         .await
-        .unwrap_or_else(|_| panic!("Failed to create Postgres connection pool! URL: {}", url));
+        .unwrap_or_else(|_| {
+            panic!(
+                "Failed to create Postgres connection pool! URL: {}",
+                database_url
+            )
+        });
 
     sqlx::migrate!("./migrations")
         .run(&pool)
