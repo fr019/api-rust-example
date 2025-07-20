@@ -10,5 +10,8 @@ create table if not exists users (
     id serial primary key,
     name varchar(255) not null,
     email varchar(255) not null unique,
-    is_deleted bool default false
+    password varchar(255) not null,
+    is_deleted bool default false,
+    created_at timestamptz default now() not null,
+    updated_at timestamptz default now() not null
 );

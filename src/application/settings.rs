@@ -40,8 +40,7 @@ pub struct Settings {
 
 impl Settings {
     pub fn new() -> Result<Self, ConfigError> {
-        let mut builder = Config::builder()
-            .add_source(Environment::default().separator("__"));
+        let mut builder = Config::builder().add_source(Environment::default().separator("__"));
 
         // Some cloud services like Heroku exposes a randomly assigned port in
         // the PORT env var and there is no way to change the env var name.
