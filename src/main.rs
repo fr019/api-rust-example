@@ -2,11 +2,37 @@ pub mod application;
 pub mod domains;
 pub mod handlers;
 pub mod repositories;
+pub mod services;
+pub mod validators;
 
 use crate::application::logger;
 use crate::application::settings::SETTINGS;
+use crate::repositories::users::UsersRepo;
+use crate::services::users::UsersService;
+use sqlx::PgPool;
 use std::env;
 use std::net::SocketAddr;
+use std::sync::Arc;
+
+#[derive(Clone)]
+pub struct AppState {
+    pub db_pool: PgPool,
+    pub users_service: Arc<UsersService>,
+    pub users_repo: Arc<UsersRepo>,
+}
+
+impl AppState {
+    pub fn new(db_pool: PgPool) -> Self {
+        let users_repo = Arc::new(UsersRepo);
+        let users_service = Arc::new(UsersService::new(users_repo.clone()));
+
+        Self {
+            db_pool,
+            users_service,
+            users_repo,
+        }
+    }
+}
 
 #[tokio::main]
 async fn main() {
