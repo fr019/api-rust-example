@@ -13,27 +13,23 @@ use sqlx::PgPool;
 use std::env;
 use std::net::SocketAddr;
 use std::sync::Arc;
-use crate::repositories::categories::CategoriesRepo;
 
 #[derive(Clone)]
 pub struct AppState {
     pub db_pool: PgPool,
     pub users_service: Arc<UsersService>,
     pub users_repo: Arc<UsersRepo>,
-    pub category_repo: Arc<CategoriesRepo>,
 }
 
 impl AppState {
     pub fn new(db_pool: PgPool) -> Self {
         let users_repo = Arc::new(UsersRepo);
         let users_service = Arc::new(UsersService::new(users_repo.clone()));
-        let category_repo = Arc::new(CategoriesRepo);
 
         Self {
             db_pool,
             users_service,
             users_repo,
-            category_repo,
         }
     }
 }
